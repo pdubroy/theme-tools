@@ -32,6 +32,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ohm-js/miniohm-js": "file:/Users/pdubroy/dev/ohmjs/ohm/packages/miniohm-js",
+    "@ohm-js/wasm": "file:/Users/pdubroy/dev/ohmjs/ohm/packages/wasm",
+    "chai": "^6.0.1",
     "line-column": "^1.0.2",
     "ohm-js": "^17.0.0"
   },

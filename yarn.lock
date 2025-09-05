@@ -909,6 +909,14 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@ohm-js/miniohm-js@file:../ohmjs/ohm/packages/miniohm-js":
+  version "0.2.0"
+
+"@ohm-js/wasm@file:../ohmjs/ohm/packages/wasm":
+  version "0.2.0"
+  dependencies:
+    "@wasmgroundup/emit" "^1.0.2"
+
 "@playwright/browser-chromium@^1.47.2":
   version "1.48.0"
   resolved "https://registry.npmjs.org/@playwright/browser-chromium/-/browser-chromium-1.48.0.tgz#780ca1ebe1aa34dbffa117267c5a84077ed784d0"
@@ -1761,6 +1769,11 @@
   resolved "https://registry.npmjs.org/@vscode/web-custom-data/-/web-custom-data-0.4.6.tgz"
   integrity sha512-4zen0CzChZ0cvVqttxe9B+G56M3A0pMoaG6Y9784EN2zvr5n61m6JebfYhJ5rzINbTqePEqmwG+7tsdr5g9BJA==
 
+"@wasmgroundup/emit@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@wasmgroundup/emit/-/emit-1.0.2.tgz#8d428e98468562b745aa584ac259334765c7826b"
+  integrity sha512-9FupNg9RUOQIBe2zNp0DY78Rb03xeElaL9NQB4haz+JDOF+0Bq4tNSuB/vwG4DFTKSffBKFCa85YdVZaf5vQPw==
+
 "@webassemblyjs/ast@1.14.1", "@webassemblyjs/ast@^1.12.1":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.14.1.tgz#a9f6a07f2b03c95c8d38c4536a1fdfb521ff55b6"
@@ -2504,6 +2517,11 @@ chai@^5.1.2:
     deep-eql "^5.0.1"
     loupe "^3.1.0"
     pathval "^2.0.0"
+
+chai@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/chai/-/chai-6.0.1.tgz#88c2b4682fb56050647e222d2cf9d6772f2607b3"
+  integrity sha512-/JOoU2//6p5vCXh00FpNgtlw0LjvhGttaWc+y7wpW9yjBm3ys0dI8tSKZxIOgNruz5J0RleccatSIC3uxEZP0g==
 
 chainsaw@~0.1.0:
   version "0.1.0"

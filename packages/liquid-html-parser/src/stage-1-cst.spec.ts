@@ -1,13 +1,17 @@
-import { expect, it, describe } from 'vitest';
-import {
+//import { expect, it, describe } from 'vitest';
+import { expect } from 'chai';
+import { it, describe } from 'node:test';
+import type {
   LiquidHtmlCST,
-  toLiquidHtmlCST,
-  toLiquidCST,
   LiquidCST,
   ConcreteLiquidTagLiquid,
-} from './stage-1-cst';
-import { VOID_ELEMENTS } from './grammar';
-import { deepGet } from './utils';
+} from './stage-1-cst.ts';
+import {
+  toLiquidHtmlCST,
+  toLiquidCST,
+} from './stage-1-cst.ts';
+import { VOID_ELEMENTS } from './grammar.ts';
+import { deepGet } from './utils.ts';
 
 describe('Unit: Stage 1 (CST)', () => {
   describe('Unit: toLiquidHtmlCST(text) and toLiquidCST(text)', () => {
@@ -951,16 +955,16 @@ describe('Unit: Stage 1 (CST)', () => {
             `;
             cst = toCST(sourceCode);
             expectPath(cst, '0.type').to.equal('LiquidRawTag');
-            expectPath(cst, '0.body').toEqual(expect.stringContaining('{% liquid'));
-            expectPath(cst, '0.body').toEqual(expect.stringContaining('assign x = 10'));
-            expectPath(cst, '0.body').toEqual(expect.stringContaining('assign y = 11'));
+            expectPath(cst, '0.body').to.include('{% liquid');
+            expectPath(cst, '0.body').to.include('assign x = 10');
+            expectPath(cst, '0.body').to.include('assign y = 11');
             expectPath(cst, '0.children.0.type').to.equal('LiquidTag');
             const liquidTag = (cst as any)[0].children[0] as ConcreteLiquidTagLiquid;
-            expect(liquidTag.name).toEqual('liquid');
+            expect(liquidTag.name).to.equal('liquid');
             const assign1 = liquidTag.markup[0];
             const assign2 = liquidTag.markup[1];
-            expect(assign1.source.slice(assign1.locStart, assign1.locEnd)).toEqual('assign x = 10');
-            expect(assign2.source.slice(assign2.locStart, assign2.locEnd)).toEqual('assign y = 11');
+            expect(assign1.source.slice(assign1.locStart, assign1.locEnd)).to.equal('assign x = 10');
+            expect(assign2.source.slice(assign2.locStart, assign2.locEnd)).to.equal('assign y = 11');
           }
         });
       });
@@ -976,11 +980,9 @@ describe('Unit: Stage 1 (CST)', () => {
           cst = toCST(sourceCode);
           expectPath(cst, '0.type').to.equal('LiquidRawTag');
           expectPath(cst, '0.children').to.have.lengthOf(1);
-          expectPath(cst, '0.children.0.type').toEqual('TextNode');
-          expectPath(cst, '0.children.0.value').toEqual(
-            expect.stringContaining('{% if unclosed %}'),
-          );
-          expectPath(cst, '0.children.0.value').toEqual(expect.stringContaining('not a problem'));
+          expectPath(cst, '0.children.0.type').to.equal('TextNode');
+          expectPath(cst, '0.children.0.value').to.include('{% if unclosed %}');
+          expectPath(cst, '0.children.0.value').to.include('not a problem');
         }
       });
 
@@ -1642,19 +1644,19 @@ describe('Unit: Stage 1 (CST)', () => {
           `;
           cst = toLiquidHtmlCST(sourceCode);
           expectPath(cst, '0.type').to.equal('HtmlRawTag');
-          expectPath(cst, '0.body').toEqual(expect.stringContaining('{% liquid'));
-          expectPath(cst, '0.body').toEqual(expect.stringContaining('assign x = 10'));
-          expectPath(cst, '0.body').toEqual(expect.stringContaining('assign y = 11'));
+          expectPath(cst, '0.body').to.include('{% liquid');
+          expectPath(cst, '0.body').to.include('assign x = 10');
+          expectPath(cst, '0.body').to.include('assign y = 11');
           expectPath(cst, '0.children.0.type').to.equal('LiquidTag');
           const liquidTag = (cst as any)[0].children[0] as ConcreteLiquidTagLiquid;
-          expect(liquidTag.name).toEqual('liquid');
+          expect(liquidTag.name).to.equal('liquid');
           const liquidTagSource = liquidTag.source.slice(liquidTag.locStart, liquidTag.locEnd);
           expect(liquidTagSource.startsWith('{% liquid')).to.be.true;
           expect(liquidTagSource.endsWith('%}')).to.be.true;
           const assign1 = liquidTag.markup[0];
           const assign2 = liquidTag.markup[1];
-          expect(assign1.source.slice(assign1.locStart, assign1.locEnd)).toEqual('assign x = 10');
-          expect(assign2.source.slice(assign2.locStart, assign2.locEnd)).toEqual('assign y = 11');
+          expect(assign1.source.slice(assign1.locStart, assign1.locEnd)).to.equal('assign x = 10');
+          expect(assign2.source.slice(assign2.locStart, assign2.locEnd)).to.equal('assign y = 11');
         });
       });
 

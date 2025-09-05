@@ -1,6 +1,6 @@
 import lineColumn from 'line-column';
-import { MatchResult } from 'ohm-js';
-import { NodeTypes, Position } from './types';
+import type { MatchResult } from 'ohm-js';
+import type { NodeTypes, Position } from './types.ts';
 
 interface LineColPosition {
   line: number;

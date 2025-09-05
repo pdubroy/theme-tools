@@ -1,9 +1,12 @@
-import { grammars, Grammar } from 'ohm-js';
+import { grammars } from 'ohm-js';
+import type { Grammar } from 'ohm-js';
+import fs from 'node:fs';
 
-export const liquidHtmlGrammars = grammars(require('../grammar/liquid-html.ohm.js'));
+const liquidHtmlGrammars = grammars(fs.readFileSync('./grammar/liquid-html.ohm', 'utf-8'));
+console.log(liquidHtmlGrammars);
 
-export const TextNodeGrammar = liquidHtmlGrammars['Helpers'];
-export const LiquidDocGrammar = liquidHtmlGrammars['LiquidDoc'];
+export const TextNodeGrammar = liquidHtmlGrammars.Helpers;
+export const LiquidDocGrammar = liquidHtmlGrammars.LiquidDoc;
 
 export interface LiquidGrammars {
   Liquid: Grammar;

@@ -30,68 +30,70 @@
  *
  */
 
-import { Parser } from 'prettier';
-import { Grammar, Node } from 'ohm-js';
+import type { Parser } from 'prettier';
+import type { Grammar, Node } from 'ohm-js';
 import { toAST } from 'ohm-js/extras';
+import type { LiquidGrammars } from './grammar.ts';
 import {
   LiquidDocGrammar,
-  LiquidGrammars,
   TextNodeGrammar,
   placeholderGrammars,
   strictGrammars,
   tolerantGrammars,
-} from './grammar';
-import { LiquidHTMLCSTParsingError } from './errors';
-import { Comparators, NamedTags } from './types';
+} from './grammar.ts';
+import { LiquidHTMLCSTParsingError } from './errors.ts';
+import { Comparators, NamedTags } from './types.ts';
 
-export enum ConcreteNodeTypes {
-  HtmlDoctype = 'HtmlDoctype',
-  HtmlComment = 'HtmlComment',
-  HtmlRawTag = 'HtmlRawTag',
-  HtmlVoidElement = 'HtmlVoidElement',
-  HtmlSelfClosingElement = 'HtmlSelfClosingElement',
-  HtmlTagOpen = 'HtmlTagOpen',
-  HtmlTagClose = 'HtmlTagClose',
-  AttrSingleQuoted = 'AttrSingleQuoted',
-  AttrDoubleQuoted = 'AttrDoubleQuoted',
-  AttrUnquoted = 'AttrUnquoted',
-  AttrEmpty = 'AttrEmpty',
-  LiquidVariableOutput = 'LiquidVariableOutput',
-  LiquidRawTag = 'LiquidRawTag',
-  LiquidTag = 'LiquidTag',
-  LiquidTagOpen = 'LiquidTagOpen',
-  LiquidTagClose = 'LiquidTagClose',
-  TextNode = 'TextNode',
-  YAMLFrontmatter = 'YAMLFrontmatter',
+export const ConcreteNodeTypes = {
+  HtmlDoctype: 'HtmlDoctype',
+  HtmlComment: 'HtmlComment',
+  HtmlRawTag: 'HtmlRawTag',
+  HtmlVoidElement: 'HtmlVoidElement',
+  HtmlSelfClosingElement: 'HtmlSelfClosingElement',
+  HtmlTagOpen: 'HtmlTagOpen',
+  HtmlTagClose: 'HtmlTagClose',
+  AttrSingleQuoted: 'AttrSingleQuoted',
+  AttrDoubleQuoted: 'AttrDoubleQuoted',
+  AttrUnquoted: 'AttrUnquoted',
+  AttrEmpty: 'AttrEmpty',
+  LiquidVariableOutput: 'LiquidVariableOutput',
+  LiquidRawTag: 'LiquidRawTag',
+  LiquidTag: 'LiquidTag',
+  LiquidTagOpen: 'LiquidTagOpen',
+  LiquidTagClose: 'LiquidTagClose',
+  TextNode: 'TextNode',
+  YAMLFrontmatter: 'YAMLFrontmatter',
 
-  LiquidVariable = 'LiquidVariable',
-  LiquidFilter = 'LiquidFilter',
-  NamedArgument = 'NamedArgument',
-  LiquidLiteral = 'LiquidLiteral',
-  VariableLookup = 'VariableLookup',
-  BooleanExpression = 'BooleanExpression',
-  String = 'String',
-  Number = 'Number',
-  Range = 'Range',
-  Comparison = 'Comparison',
-  Condition = 'Condition',
+  LiquidVariable: 'LiquidVariable',
+  LiquidFilter: 'LiquidFilter',
+  NamedArgument: 'NamedArgument',
+  LiquidLiteral: 'LiquidLiteral',
+  VariableLookup: 'VariableLookup',
+  BooleanExpression: 'BooleanExpression',
+  String: 'String',
+  Number: 'Number',
+  Range: 'Range',
+  Comparison: 'Comparison',
+  Condition: 'Condition',
 
-  AssignMarkup = 'AssignMarkup',
-  ContentForMarkup = 'ContentForMarkup',
-  CycleMarkup = 'CycleMarkup',
-  ForMarkup = 'ForMarkup',
-  RenderMarkup = 'RenderMarkup',
-  PaginateMarkup = 'PaginateMarkup',
-  RenderVariableExpression = 'RenderVariableExpression',
-  RenderAliasExpression = 'RenderAliasExpression',
-  ContentForNamedArgument = 'ContentForNamedArgument',
+  AssignMarkup: 'AssignMarkup',
+  ContentForMarkup: 'ContentForMarkup',
+  CycleMarkup: 'CycleMarkup',
+  ForMarkup: 'ForMarkup',
+  RenderMarkup: 'RenderMarkup',
+  PaginateMarkup: 'PaginateMarkup',
+  RenderVariableExpression: 'RenderVariableExpression',
+  RenderAliasExpression: 'RenderAliasExpression',
+  ContentForNamedArgument: 'ContentForNamedArgument',
 
-  LiquidDocParamNode = 'LiquidDocParamNode',
-  LiquidDocParamNameNode = 'LiquidDocParamNameNode',
-  LiquidDocDescriptionNode = 'LiquidDocDescriptionNode',
-  LiquidDocExampleNode = 'LiquidDocExampleNode',
-  LiquidDocPromptNode = 'LiquidDocPromptNode',
-}
+  LiquidDocParamNode: 'LiquidDocParamNode',
+  LiquidDocParamNameNode: 'LiquidDocParamNameNode',
+  LiquidDocDescriptionNode: 'LiquidDocDescriptionNode',
+  LiquidDocExampleNode: 'LiquidDocExampleNode',
+  LiquidDocPromptNode: 'LiquidDocPromptNode',
+} as const;
+
+export type ConcreteNodeTypes = typeof ConcreteNodeTypes[keyof typeof ConcreteNodeTypes];
 
 export const LiquidLiteralValues = {
   nil: null,
