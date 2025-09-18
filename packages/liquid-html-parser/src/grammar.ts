@@ -2,8 +2,18 @@ import { grammars } from 'ohm-js';
 import type { Grammar } from 'ohm-js';
 import fs from 'node:fs';
 
+import { WasmGrammar } from '@ohm-js/miniohm-js';
+import { Compiler } from '@ohm-js/wasm';
+
 const liquidHtmlGrammars = grammars(fs.readFileSync('./grammar/liquid-html.ohm', 'utf-8'));
-console.log(liquidHtmlGrammars);
+
+for (const [name, g] of Object.entries(liquidHtmlGrammars)) {
+   const wasmGrammar = new WasmGrammar(
+    new Compiler(g).compile(),
+  );
+  wasmGrammar.rules = g.rules;
+  liquidHtmlGrammars[name] = wasmGrammar;
+}
 
 export const TextNodeGrammar = liquidHtmlGrammars.Helpers;
 export const LiquidDocGrammar = liquidHtmlGrammars.LiquidDoc;
