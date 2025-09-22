@@ -32,7 +32,8 @@
 
 import type { Parser } from 'prettier';
 import type { Grammar, Node } from 'ohm-js';
-import { toAST } from 'ohm-js/extras';
+import { AstBuilder } from '@ohm-js/miniohm-js';
+// import { toAST } from 'ohm-js/extras';
 import type { LiquidGrammars } from './grammar.ts';
 import {
   LiquidDocGrammar,
@@ -604,10 +605,8 @@ function toCST<T>(
     empty: () => null,
     nonemptyOrderedListOf: 0,
     nonemptyOrderedListOfBoth(nonemptyListOfA: Node, _sep: Node, nonemptyListOfB: Node) {
-      const self = this as any;
-      return nonemptyListOfA
-        .toAST(self.args.mapping)
-        .concat(nonemptyListOfB.toAST(self.args.mapping));
+      return this.toAst(nonemptyListOfA)
+        .concat(this.toAst(nonemptyListOfB));
     },
   };
 
@@ -731,7 +730,7 @@ function toCST<T>(
         const markupNode = nodes[6];
         const nameNode = nodes[3];
         if (NamedTags.hasOwnProperty(nameNode.sourceString)) {
-          return markupNode.toAST((this as any).args.mapping);
+          return this.toAst(markupNode);
         }
         return markupNode.sourceString.trim();
       },
@@ -827,7 +826,7 @@ function toCST<T>(
         const markupNode = nodes[6];
         const nameNode = nodes[3];
         if (NamedTags.hasOwnProperty(nameNode.sourceString)) {
-          return markupNode.toAST((this as any).args.mapping);
+          return this.toAst(markupNode);
         }
         return markupNode.sourceString.trim();
       },
@@ -903,12 +902,9 @@ function toCST<T>(
       variableLookup,
       _7,
     ) {
-      const self = this as any;
-
       // variableLookup.sourceString can be '' when there are no incomplete params
-      return namedArguments
-        .toAST(self.args.mapping)
-        .concat(variableLookup.sourceString === '' ? [] : variableLookup.toAST(self.args.mapping));
+      return this.toAst(namedArguments)
+        .concat(variableLookup.sourceString === '' ? [] : this.toAst(variableLookup));
     },
     snippetExpression: 0,
     renderVariableExpression: {
@@ -966,30 +962,24 @@ function toCST<T>(
         if (nodes[7].sourceString === '') {
           return [];
         } else {
-          return nodes[7].toAST((this as any).args.mapping);
+          return this.toAst(nodes[7]);
         }
       },
     },
     filterArguments: 0,
     arguments: 0,
     complexArguments: function (completeParams, _space1, _comma, _space2, incompleteParam) {
-      const self = this as any;
-
-      return completeParams
-        .toAST(self.args.mapping)
+      return this.toAst(completeParams)
         .concat(
-          incompleteParam.sourceString === '' ? [] : incompleteParam.toAST(self.args.mapping),
+          incompleteParam.sourceString === '' ? [] : this.toAst(incompleteParam),
         );
     },
     simpleArgument: 0,
     tagArguments: 0,
     contentForTagArgument: 0,
     completionModeContentForTagArgument: function (namedArguments, _separator, variableLookup) {
-      const self = this as any;
-
-      return namedArguments
-        .toAST(self.args.mapping)
-        .concat(variableLookup.sourceString === '' ? [] : variableLookup.toAST(self.args.mapping));
+      return this.toAst(namedArguments)
+        .concat(variableLookup.sourceString === '' ? [] : this.toAst(variableLookup));
     },
     positionalArgument: 0,
     namedArgument: {
@@ -1011,12 +1001,8 @@ function toCST<T>(
     },
 
     liquidBooleanExpression(initialCondition: Node, subsequentConditions: Node) {
-      const initialConditionAst = initialCondition.toAST(
-        (this as any).args.mapping,
-      ) as ConcreteLiquidCondition;
-      const subsequentConditionAsts = subsequentConditions.toAST(
-        (this as any).args.mapping,
-      ) as ConcreteLiquidCondition[];
+      const initialConditionAst = this.toAst(initialCondition) as ConcreteLiquidCondition;
+      const subsequentConditionAsts = this.toAst(subsequentConditions) as ConcreteLiquidCondition[];
 
       // liquidBooleanExpression can capture too much. If there are no comparisons (e.g. `==`, `>`, etc.)
       // and we only have a single condition (i.e. no `and` or `or` operators), we can return the expression directly.
@@ -1142,7 +1128,7 @@ function toCST<T>(
         const markupNode = nodes[2];
         const nameNode = nodes[0];
         if (NamedTags.hasOwnProperty(nameNode.sourceString)) {
-          return markupNode.toAST((this as any).args.mapping);
+          return this.toAst(markupNode);
         }
         return markupNode.sourceString.trim();
       },
@@ -1170,7 +1156,7 @@ function toCST<T>(
         const markupNode = nodes[2];
         const nameNode = nodes[0];
         if (NamedTags.hasOwnProperty(nameNode.sourceString)) {
-          return markupNode.toAST((this as any).args.mapping);
+          return this.toAst(markupNode);
         }
         return markupNode.sourceString.trim();
       },
@@ -1257,11 +1243,10 @@ function toCST<T>(
 
   const LiquidHTMLMappings: Mapping = {
     Node(frontmatter: Node, nodes: Node) {
-      const self = this as any;
       const frontmatterNode =
-        frontmatter.sourceString.length === 0 ? [] : [frontmatter.toAST(self.args.mapping)];
+        frontmatter.sourceString.length === 0 ? [] : [this.toAst(frontmatter)];
 
-      return frontmatterNode.concat(nodes.toAST(self.args.mapping));
+      return frontmatterNode.concat(this.toAst(nodes));
     },
 
     yamlFrontmatter: {
@@ -1292,8 +1277,7 @@ function toCST<T>(
       type: ConcreteNodeTypes.HtmlRawTag,
       name: (tokens: Node[]) => tokens[0].children[1].sourceString,
       attrList(tokens: Node[]) {
-        const mappings = (this as any).args.mapping;
-        return tokens[0].children[2].toAST(mappings);
+        return this.toAst(tokens[0].children[2]);
       },
       body: (tokens: Node[]) => source.slice(tokens[0].source.endIdx, tokens[2].source.startIdx),
       children: (tokens: Node[]) => {
@@ -1356,8 +1340,7 @@ function toCST<T>(
     trailingTagNamePart: 0,
     trailingTagNameTextNode: textNode,
     tagName(leadingPart: Node, trailingParts: Node) {
-      const mappings = (this as any).args.mapping;
-      return [leadingPart.toAST(mappings)].concat(trailingParts.toAST(mappings));
+      return [this.toAst(leadingPart)].concat(this.toAst(trailingParts));
     },
 
     AttrUnquoted: {
@@ -1419,8 +1402,7 @@ function toCST<T>(
     }),
     {},
   );
-
-  return toAST(res, selectedMappings) as T;
+  return new AstBuilder(selectedMappings).toAst(res) as T;
 }
 
 /**
@@ -1454,12 +1436,11 @@ function toLiquidDocAST(source: string, matchingSource: string, offset: number) 
 
   const LiquidDocMappings: Mapping = {
     Node(implicitDescription: Node, body: Node) {
-      const self = this as any;
       const implicitDescriptionNode =
         implicitDescription.sourceString.length === 0
           ? []
-          : [implicitDescription.toAST(self.args.mapping)];
-      return implicitDescriptionNode.concat(body.toAST(self.args.mapping));
+          : [this.toAst(implicitDescription)];
+      return implicitDescriptionNode.concat(this.toAst(body));
     },
     ImplicitDescription: {
       type: ConcreteNodeTypes.LiquidDocDescriptionNode,
