@@ -585,7 +585,7 @@ function toCST<T>(
   const textNode = {
     type: ConcreteNodeTypes.TextNode,
     value: function () {
-      return (this as any).sourceString;
+      return this.currNode.sourceString;
     },
     locStart,
     locEnd,
@@ -1427,7 +1427,7 @@ function toLiquidDocAST(source: string, matchingSource: string, offset: number) 
   const textNode = () => ({
     type: ConcreteNodeTypes.TextNode,
     value: function () {
-      return (this as any).sourceString;
+      return this.currNode.sourceString;
     },
     locStart,
     locEnd,

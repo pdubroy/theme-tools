@@ -32,15 +32,13 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ohm-js/miniohm-js": "^0.3.4",
-    "@ohm-js/wasm": "^0.3.2",
+    "@ohm-js/miniohm-js": "^0.4.0",
+    "@ohm-js/wasm": "^0.4.0",
     "chai": "^6.0.1",
     "line-column": "^1.0.2",
     "ohm-js": "^17.0.0"
   },
   "devDependencies": {
-    "@ohm-js/miniohm-js": "^0.3.7",
-    "@ohm-js/wasm": "^0.3.3",
     "@types/line-column": "^1.0.0"
   }
 }
