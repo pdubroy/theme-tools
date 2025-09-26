@@ -1300,7 +1300,7 @@ function toCST<T>(
     HtmlVoidElement: {
       type: ConcreteNodeTypes.HtmlVoidElement,
       name: 1,
-      attrList: 3,
+      attrList: 2,
       locStart,
       locEnd,
       source,
