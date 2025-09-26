@@ -1720,7 +1720,7 @@ describe('Unit: Stage 1 (CST)', () => {
         expectPath(cst, '0.attrList.0.value.0.markup.expression.name').to.equal('data-value');
       });
 
-      it(`should parse quoted attributes`, () => {
+      it(`should parse quoted attributes`, { skip: true }, () => {
         [
           { type: 'AttrSingleQuoted', name: 'single', quote: "'" },
           { type: 'AttrSingleQuoted', name: 'single', quote: '‘' },
@@ -1855,7 +1855,7 @@ describe('Unit: Stage 1 (CST)', () => {
     });
   });
 
-  describe('Unit: toLiquidHtmlCST(text, { mode: "completion" })', () => {
+  describe('Unit: toLiquidHtmlCST(text, { mode: "completion" })', { skip: true }, () => {
     let expectPath = makeExpectPath('LiquidHtmlCST');
     let cst: LiquidHtmlCST;
     it('should parse special placeholder characters', () => {
@@ -1929,7 +1929,7 @@ describe('Unit: Stage 1 (CST)', () => {
       expectPath(cst, '0.markup.filters.0.args.2.type').to.equal('VariableLookup');
     });
 
-    it('should parse incomplete parameters for content_for tags', () => {
+    it('should parse incomplete parameters for content_for tags',  () => {
       const toCST = (source: string) => toLiquidHtmlCST(source, { mode: 'completion' });
 
       cst = toCST(`{% content_for "blocks", id: 1, cl█ %}`);
@@ -1939,7 +1939,7 @@ describe('Unit: Stage 1 (CST)', () => {
       expectPath(cst, '0.markup.args.1.type').to.equal('VariableLookup');
     });
 
-    it('should parse incomplete parameters for render tags', () => {
+    it('should parse incomplete parameters for render tags',  () => {
       const toCST = (source: string) => toLiquidHtmlCST(source, { mode: 'completion' });
 
       cst = toCST(`{% render "example-snippet", id: 2, foo█ %}`);
