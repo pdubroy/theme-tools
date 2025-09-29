@@ -909,15 +909,15 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@ohm-js/miniohm-js@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@ohm-js/miniohm-js/-/miniohm-js-0.4.0.tgz#7dc8b61e83986960e737ad3395d52e072083b9ab"
-  integrity sha512-BOKkowoRAFRG1wbZClKsIjWGha1IBipU6XQmwDY/7ISwIEPrdgYyaskXJbA7S3kvyqJdvSBS0SFmYuy6VIYl3Q==
+"@ohm-js/miniohm-js@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@ohm-js/miniohm-js/-/miniohm-js-0.4.3.tgz#205e8e259af86f90d134f034ebded1c1e63b5463"
+  integrity sha512-lkPK33LavH2A4lxEP1qEvCjD+N1EU4r6EdViDEHpMWrNmYq+hd1JpUUsA9dJY1DH+pWxvzo4FHNuWFvp9dfkaQ==
 
-"@ohm-js/wasm@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@ohm-js/wasm/-/wasm-0.4.0.tgz#da7f53bde9a33ac22acdac0c3ded835181ed9f77"
-  integrity sha512-ny28DE/1bj0ZwyvTf6PFE6q5tT7vqXt/E4OuthfWuUBapyrKH3pFMxduH1H5IF7N0wvofTnOigOOgZt6Da0sOA==
+"@ohm-js/wasm@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@ohm-js/wasm/-/wasm-0.4.3.tgz#e8a85c45a97c09b813e0b286e02adaaecd583e7b"
+  integrity sha512-8CflsbsWWRa186XeJoo7J0v2NHJeAYytxrOoObbPX7IFPywk9PNv4yKhnuPP/WLegt6iel3MGAnDZjt5iEbPbg==
   dependencies:
     "@wasmgroundup/emit" "^1.0.2"
 
